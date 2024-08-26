@@ -10,7 +10,6 @@ function Layout() {
       <div className="container mx-auto my-6 py-14">
         <Outlet />
       </div>
-      <Footer />
     </>
   );
 }
