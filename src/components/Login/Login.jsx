@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import * as Yup from "yup";
 import { userContext } from "../../Context/UserContext";
 // import Style from "./Login.module.css";
@@ -10,7 +10,7 @@ function Login() {
   let navigate = useNavigate();
   let [apiError, setApiError] = useState();
   let [isLoading, setIsLoading] = useState(false);
-  let {setUserLogin} = useContext(userContext);
+  let { setUserLogin } = useContext(userContext);
 
   // //This is my validation function that formik uses to validate the input
   // function myValidation(formValues) {
@@ -46,20 +46,20 @@ function Login() {
         /^[A-Z][A-Za-z0-9]{8}$/,
         "The password must start with a capital letter and followed by 8 letters or numbers"
       )
-      .required("The password is required")
+      .required("The password is required"),
   });
 
   // this is the function that formik uses to handle submit
   function handleLogin(formValues) {
-    setIsLoading(true)
+    setIsLoading(true);
     axios
       .post("https://ecommerce.routemisr.com/api/v1/auth/signin", formValues)
       .then((response) => {
         setIsLoading(false);
         setApiError(null);
         localStorage.setItem("userToken", response.data.token);
-        setUserLogin(response.data.token)
-        navigate("/")
+        setUserLogin(response.data.token);
+        navigate("/");
       })
       .catch((response) => {
         setIsLoading(false);
@@ -71,7 +71,7 @@ function Login() {
   let formik = useFormik({
     initialValues: {
       email: "",
-      password: ""
+      password: "",
     },
     validationSchema,
     onSubmit: handleLogin,
@@ -91,8 +91,6 @@ function Login() {
 
       <h3 className="text-3xl font-bold text-green-600 mb-5">Login Now</h3>
       <form onSubmit={formik.handleSubmit}>
-       
-
         <div className="relative z-0 w-full mb-5 group">
           <input
             id="email"
@@ -122,7 +120,6 @@ function Login() {
           </div>
         ) : null}
 
-      
         <div className="relative z-0 w-full mb-5 group">
           <input
             id="password"
@@ -151,14 +148,16 @@ function Login() {
             {formik.errors.password}
           </div>
         ) : null}
-
-    
+        <Link to={"/forgot-password"}>
+          <p className="text-green-700 font-bold hover:text-green-950 cursor-pointer mb-3">
+            Forgot your password?
+          </p>
+        </Link>
         <button
           type="submit"
           className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
         >
-          {isLoading? <i className="fas fa-spinner fa-spin"></i>
-         : 'Login'}
+          {isLoading ? <i className="fas fa-spinner fa-spin"></i> : "Login"}
         </button>
       </form>
     </div>

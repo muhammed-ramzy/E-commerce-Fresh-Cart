@@ -19,6 +19,7 @@ import { CartContextProvider } from "./Context/CartContext";
 import { Toaster } from "react-hot-toast";
 import Checkout from "./components/Checkout/Checkout";
 import AllOrders from './components/AllOrders/AllOrders';
+import ForgotPassword from "./components/forgotPassword/forgotPassword";
 
 let queryClient = new QueryClient();
 
@@ -93,6 +94,7 @@ let route = createBrowserRouter([
       },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
+      { path: "forgot-password", element: <ForgotPassword /> },
       { path: "*", element: <Notfound /> },
     ],
   },

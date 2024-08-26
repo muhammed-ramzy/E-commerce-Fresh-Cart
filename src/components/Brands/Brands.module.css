@@ -1,1 +1,4 @@
-.Brands {}
+.brandsShadow:hover
+{
+    box-shadow: 0 0 1rem 0.10rem green;
+}
