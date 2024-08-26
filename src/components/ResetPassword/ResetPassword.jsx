@@ -1,4 +1,4 @@
-// import Style from "./forgotPassword.module.css"
+// import Style from "./ResetPassword.module.css"
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -6,31 +6,31 @@ import { userContext } from "../../Context/UserContext";
 import axios from "axios";
 import { useFormik } from "formik";
 
-function ForgotPassword() {
+function ResetPassword() {
   let navigate = useNavigate();
   let [apiError, setApiError] = useState();
   let [isLoading, setIsLoading] = useState(false);
   let { setUserLogin } = useContext(userContext);
 
-  let validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("invalid email")
-      .required("The email is required"),
-  });
+//   let validationSchema = Yup.object().shape({
+//     email: Yup.string()
+//       .email("invalid email")
+//       .required("The email is required"),
+//   });
 
   // this is the function that formik uses to handle submit
-  function handleForgotPassword(formValues) {
+  function handleResetPassword(formValues) {
     console.log(formValues);
     
     setIsLoading(true);
     axios
-      .post("https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords", formValues)
+      .post("https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode", formValues)
       .then((response) => {
         setIsLoading(false);
         setApiError(null);
         console.log(response);
         
-        navigate("/reset-password");
+        navigate("/resetting-password");
       })
       .catch((response) => {
         setIsLoading(false);
@@ -41,10 +41,9 @@ function ForgotPassword() {
   // Start using Formik to handle our form
   let formik = useFormik({
     initialValues: {
-      email: "",
+      resetCode: "",
     },
-    validationSchema,
-    onSubmit: handleForgotPassword,
+    onSubmit: handleResetPassword,
   });
 
   return (
@@ -59,36 +58,29 @@ function ForgotPassword() {
         </div>
       ) : null}
 
-      <h3 className="text-3xl font-bold text-green-600 mb-5">please enter your email</h3>
+      <h3 className="text-3xl font-bold text-green-600 mb-5">Reset your account password
+      </h3>
       <form onSubmit={formik.handleSubmit}>
         <div className="relative z-0 w-full mb-5 group">
           <input
-            id="email"
-            type="email"
-            name="email"
+            id="resetCode"
+            type="text"
+            name="resetCode"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none   dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer"
             placeholder=""
-            value={formik.values.email}
+            value={formik.values.resetCode}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
           />
           <label
-            htmlFor="email"
+            htmlFor="resetCode"
             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Enter your email:
+           Code: 
           </label>
         </div>
 
-        {/* Email validation */}
-        {formik.errors.email && formik.touched.email ? (
-          <div
-            className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50"
-            role="alert"
-          >
-            {formik.errors.email}
-          </div>
-        ) : null}
+    
 
         <button
           type="submit"
@@ -101,4 +93,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default ResetPassword;

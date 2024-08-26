@@ -21,6 +21,9 @@ import Checkout from "./components/Checkout/Checkout";
 import AllOrders from './components/AllOrders/AllOrders';
 import ForgotPassword from "./components/forgotPassword/forgotPassword";
 
+import ResettingPassword from "./components/ResettingPassword/ResettingPassword";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
+
 let queryClient = new QueryClient();
 
 let route = createBrowserRouter([
@@ -95,6 +98,8 @@ let route = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
       { path: "forgot-password", element: <ForgotPassword /> },
+      { path: "reset-password", element: <ResetPassword /> },
+      { path: "resetting-password", element: <ResettingPassword /> },
       { path: "*", element: <Notfound /> },
     ],
   },
