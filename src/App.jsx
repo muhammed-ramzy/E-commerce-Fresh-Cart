@@ -23,6 +23,7 @@ import ForgotPassword from "./components/forgotPassword/forgotPassword";
 
 import ResettingPassword from "./components/ResettingPassword/ResettingPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
+import WishList from './components/WishList/WishList';
 
 let queryClient = new QueryClient();
 
@@ -68,6 +69,14 @@ let route = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Products />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "wishlist",
+        element: (
+          <ProtectedRoute>
+            <WishList />
           </ProtectedRoute>
         ),
       },

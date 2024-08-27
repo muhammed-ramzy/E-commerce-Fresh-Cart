@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { userContext } from "../../Context/UserContext";
 import { cartContext } from "../../Context/CartContext";
 // import Style from "./Navbar.module.css"
+import WishList from './../WishList/WishList';
 
 function Navbar() {
   let { setUserLogin, userLogin } = useContext(userContext);
@@ -43,6 +44,9 @@ function Navbar() {
               </li>
               <li className="mx-2 py-1 px-2 text-lg text-slate-900 hover:text-green-100 hover:bg-green-900 active:bg-green-500 transition-all duration-300  rounded-lg  font-semibold capitalize">
                 <NavLink to="categories">categories</NavLink>
+              </li>
+              <li className="mx-2 py-1 px-2 text-lg text-slate-900 hover:text-green-100 hover:bg-green-900 active:bg-green-500 transition-all duration-300  rounded-lg  font-semibold capitalize">
+                <NavLink to="wishlist">WishList</NavLink>
               </li>
               </>: null}
               

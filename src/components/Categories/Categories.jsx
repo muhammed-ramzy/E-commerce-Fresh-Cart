@@ -11,7 +11,6 @@ function Categories() {
       `https://ecommerce.routemisr.com/api/v1/categories`
     );
     setAllCategories(res.data.data);
-    console.log(res.data.data);
   }
 
   useEffect(() => {

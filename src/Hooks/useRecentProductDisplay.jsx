@@ -42,7 +42,6 @@ function useRecentProductDisplay(data) {
       }
     );
     setWishListItems(res.data.data);
-    console.log(res);
   }
 
   async function addProductToWishList(productId) {
@@ -55,13 +54,11 @@ function useRecentProductDisplay(data) {
         headers,
       }
     );
-    console.log(res);
     setWishListItems(res.data.data);
   }
 
   useEffect(() => {
     getWishList()
-    console.log(wishListItems);
   }, []);
 
   return (
