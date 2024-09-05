@@ -1,7 +1,7 @@
 // import { useState } from 'react'
 import "./App.css";
 import Home from "./components/Home/Home";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, createHashRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import Categories from "./components/Categories/Categories";
 import Brands from "./components/Brands/Brands";
@@ -18,16 +18,16 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { CartContextProvider } from "./Context/CartContext";
 import { Toaster } from "react-hot-toast";
 import Checkout from "./components/Checkout/Checkout";
-import AllOrders from './components/AllOrders/AllOrders';
+import AllOrders from "./components/AllOrders/AllOrders";
 import ForgotPassword from "./components/forgotPassword/forgotPassword";
 
 import ResettingPassword from "./components/ResettingPassword/ResettingPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
-import WishList from './components/WishList/WishList';
+import WishList from "./components/WishList/WishList";
 
 let queryClient = new QueryClient();
 
-let route = createBrowserRouter([
+let route = createHashRouter([
   {
     path: "",
     element: <Layout />,

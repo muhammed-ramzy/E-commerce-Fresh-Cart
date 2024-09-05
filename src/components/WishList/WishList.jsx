@@ -1,6 +1,5 @@
 // import Style from "./WishList.module.css";
 import axios from "axios";
-import scarf from "../../assets/scarf.jpeg";
 import { useEffect, useState } from "react";
 
 function WishList() {
@@ -28,8 +27,7 @@ function WishList() {
         headers,
       }
     );
-    getWishList()
-    
+    getWishList();
   }
 
   useEffect(() => {
@@ -61,7 +59,10 @@ function WishList() {
                       <p className="text-green-900 mb-1">{item.price} EGP</p>
 
                       {/* Remove Item Action */}
-                      <div className="text-red-700 cursor-pointer hover:text-red-500" onClick={()=> removeFromWishList(item._id)}>
+                      <div
+                        className="text-red-700 cursor-pointer hover:text-red-500"
+                        onClick={() => removeFromWishList(item._id)}
+                      >
                         <i className="fa-solid fa-trash-can me-1"></i>
                         <span>Remove</span>
                       </div>
