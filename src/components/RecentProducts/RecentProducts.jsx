@@ -1,17 +1,16 @@
-// import Style from "./RecentProducts.module.css"
-import { useEffect } from "react";
-import useProducts from "../useProducts";
-import useRecentProductDisplay from './../../Hooks/useRecentProductDisplay';
+import useRecentProducts from "../../Hooks/useRecentProducts";
+import Product from "../Product/Product";
 
 function RecentProducts() {
-  let { data } = useProducts();
-  let products = useRecentProductDisplay(data);
+  let { data } = useRecentProducts();
 
-  useEffect(()=>{console.log(data);
-  },[data])
   return (
     <>
-      {products}
+      <div className="flex flex-wrap  items-center">
+        {data?.data.data.map((product) => (
+          <Product key={product.id} product={product} />
+        ))}
+      </div>
     </>
   );
 }

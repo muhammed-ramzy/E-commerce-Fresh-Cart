@@ -68,6 +68,7 @@ export function CartContextProvider(props) {
       });
   }
 
+
   // Function to remove an item from the cart
   function removeCartItem(productId) {
     return axios
