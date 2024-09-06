@@ -34,9 +34,9 @@ function Navbar() {
                   <li className="mx-2 py-1 px-2 text-lg text-slate-900 hover:text-green-100 hover:bg-green-900 active:bg-green-500 transition-all duration-300  rounded-lg  font-semibold capitalize">
                     <NavLink to="cart">cart</NavLink>
                   </li>
-                  <li className="mx-2 py-1 px-2 text-lg text-slate-900 hover:text-green-100 hover:bg-green-900 active:bg-green-500 transition-all duration-300  rounded-lg  font-semibold capitalize">
+                  {/* <li className="mx-2 py-1 px-2 text-lg text-slate-900 hover:text-green-100 hover:bg-green-900 active:bg-green-500 transition-all duration-300  rounded-lg  font-semibold capitalize">
                     <NavLink to="products">products</NavLink>
-                  </li>
+                  </li> */}
                   <li className="mx-2 py-1 px-2 text-lg text-slate-900 hover:text-green-100 hover:bg-green-900 active:bg-green-500 transition-all duration-300  rounded-lg  font-semibold capitalize">
                     <NavLink to="brands">brands</NavLink>
                   </li>
