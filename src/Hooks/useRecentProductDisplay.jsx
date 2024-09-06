@@ -6,11 +6,12 @@ import axios from "axios";
 
 function useRecentProductDisplay(data) {
   let { addItem, isLoading } = useContext(cartContext);
+  let [wishListItems, setWishListItems] = useState([]);
   const [productId, setProductId] = useState(null);
+
   let headers = {
     token: localStorage.getItem("userToken"),
   };
-  let [wishListItems, setWishListItems] = useState([]);
 
   async function addCartItem(productId) {
     setProductId(productId);
@@ -21,6 +22,37 @@ function useRecentProductDisplay(data) {
     });
   }
 
+  function addProductToWishList(productId) {
+    return axios
+      .post(
+        `https://ecommerce.routemisr.com/api/v1/wishlist`,
+        {
+          productId,
+        },
+        {
+          headers,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+
+        setWishListItems(res.data.data);
+        return res;
+      })
+      .catch((err) => err);
+  }
+
+  function removeFromWishList(productId) {
+    return axios
+      .delete(`https://ecommerce.routemisr.com/api/v1/wishlist/${productId}`, {
+        headers,
+      })
+      .then((res) => {
+        setWishListItems(res.data.data);
+        return res;
+      })
+      .catch((err) => err);
+  }
   async function getWishList() {
     let res = await axios.get(
       `https://ecommerce.routemisr.com/api/v1/wishlist`,
@@ -29,36 +61,28 @@ function useRecentProductDisplay(data) {
       }
     );
 
-    let arr = res.data.data.map(item => item._id)
-    setWishListItems(arr)
-
+    let arr = res.data.data.map((item) => item._id);
+    setWishListItems(arr);
   }
 
-  async function removeFromWishList(productId) {
-    let res = await axios.delete(
-      `https://ecommerce.routemisr.com/api/v1/wishlist/${productId}`,
-      {
-        headers,
-      }
-    );
-    setWishListItems(res.data.data);
+  async function removeFromWishListHandler(productId) {
+    toast.promise(removeFromWishList(productId), {
+      loading: "Removing from Your WishList",
+      success: (response) => response.data.message,
+      error: (response) => response.data.message,
+    });
   }
 
-  async function addProductToWishList(productId) {
-    let res = await axios.post(
-      `https://ecommerce.routemisr.com/api/v1/wishlist`,
-      {
-        productId,
-      },
-      {
-        headers,
-      }
-    );
-    setWishListItems(res.data.data);
+  async function addProductToWishListHandler(productId) {
+    toast.promise(addProductToWishList(productId), {
+      loading: "Adding to Your WishList",
+      success: (response) => response.data.message,
+      error: (response) => response.data.message,
+    });
   }
 
   useEffect(() => {
-    getWishList()
+    getWishList();
   }, []);
 
   return (
@@ -109,10 +133,13 @@ function useRecentProductDisplay(data) {
                   </span>
                   <span className="text-lg lg:text-3xl font-bold text-gray-900 ">
                     {wishListItems.find((item) => item === product.id) ? (
-                      <i onClick={() => removeFromWishList(product.id)} className="fa-solid fa-heart cursor-pointer text-red-700"></i>
+                      <i
+                        onClick={() => removeFromWishListHandler(product.id)}
+                        className="fa-solid fa-heart cursor-pointer text-red-700"
+                      ></i>
                     ) : (
                       <i
-                        onClick={() => addProductToWishList(product.id)}
+                        onClick={() => addProductToWishListHandler(product.id)}
                         className="fa-regular fa-heart cursor-pointer"
                       ></i>
                     )}
