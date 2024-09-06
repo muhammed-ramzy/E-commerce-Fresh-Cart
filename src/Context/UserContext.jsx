@@ -1,21 +1,41 @@
+import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 
 export let userContext = createContext();
 
-export function UserContextProvider(props)
-{
-    let [userLogin, setUserLogin] = useState(null);
-    let [counter1, setCounter1] = useState(10);
+export function UserContextProvider(props) {
+  let [userLogin, setUserLogin] = useState(null);
+  let [wishListItems, setWishListItems] = useState([]);
 
-    useEffect(()=>{
-        if(localStorage.getItem("userToken") !== null)
-        {
-            setUserLogin(localStorage.getItem("userToken"))
-            
-        }
-    }, [])
+  let headers = {
+    token: localStorage.getItem("userToken"),
+  };
 
-    return <userContext.Provider value={{setUserLogin, userLogin, counter1}}>
-        {props.children}
+  async function getWishList() {
+    let res = await axios.get(
+      `https://ecommerce.routemisr.com/api/v1/wishlist`,
+      {
+        headers,
+      }
+    );
+
+    let arr = res.data.data.map((item) => item._id);
+    setWishListItems(arr);
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem("userToken") !== null) {
+      setUserLogin(localStorage.getItem("userToken"));
+    }
+
+    getWishList();
+  }, []);
+
+  return (
+    <userContext.Provider
+      value={{ setUserLogin, userLogin, setWishListItems, wishListItems }}
+    >
+      {props.children}
     </userContext.Provider>
+  );
 }

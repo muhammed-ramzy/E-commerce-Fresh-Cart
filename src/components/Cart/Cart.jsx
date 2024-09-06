@@ -23,11 +23,6 @@ function Cart() {
     setCartDetails(response);
   }
 
-  //   async function Checkout(cartId, url, formValues) {
-  //     let response = await CheckOut(cartId, url, formValues);
-  //     console.log(response);
-
-  //   }
 
   useEffect(() => {
     getItems();

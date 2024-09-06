@@ -4,10 +4,11 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { cartContext } from "../../Context/CartContext";
+import { userContext } from "../../Context/UserContext";
 
 function Product({ product }) {
   let { addItem, isLoading } = useContext(cartContext);
-  let [wishListItems, setWishListItems] = useState([]);
+  let { setWishListItems, wishListItems } = useContext(userContext);
   const [productId, setProductId] = useState(null);
 
   let headers = {
@@ -55,18 +56,6 @@ function Product({ product }) {
       .catch((err) => err);
   }
 
-  async function getWishList() {
-    let res = await axios.get(
-      `https://ecommerce.routemisr.com/api/v1/wishlist`,
-      {
-        headers,
-      }
-    );
-
-    let arr = res.data.data.map((item) => item._id);
-    setWishListItems(arr);
-  }
-
   async function removeFromWishListHandler(productId) {
     toast.promise(removeFromWishList(productId), {
       loading: "Removing from Your WishList",
@@ -83,9 +72,6 @@ function Product({ product }) {
     });
   }
 
-  useEffect(() => {
-    getWishList();
-  }, []);
 
   return (
     <div
@@ -93,12 +79,10 @@ function Product({ product }) {
       className="w-1/2 mb-3 lg:w-1/5 hover:scale-105 transition-all duration-200 rounded-3xl p-2"
     >
       <div className=" bg-white  border-gray-200 rounded-3xl shadow-green-100 dark:border-green-700 overflow-hidden">
-        <Link
-          onClick={window.scroll({
+        <Link onClick={()=>window.scroll({
             top: 0,
             behavior: "smooth",
-          })}
-          to={`/product-details/${product.id}/${product.category.name}`}
+          })}  to={`/product-details/${product.id}/${product.category.name}`}
         >
           <img className="" src={product.imageCover} alt="product image" />
         </Link>
