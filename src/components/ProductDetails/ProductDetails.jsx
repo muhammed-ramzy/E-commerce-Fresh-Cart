@@ -3,6 +3,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Slider from "react-slick";
 import Product from "../Product/Product";
+import ProductPrice from "../ProductPrice/ProductPrice";
+import ProductRatingsAverage from "../ProductRatingsAverage/ProductRatingsAverage";
+import ProductTitle from "../ProductTitle/ProductTitle";
+import ProductAddToCartButton from "../ProductAddToCartButton/ProductAddToCartButton";
+import WishlistHeart from "../WishlistHeart/WishlistHeart";
 
 function ProductDetails() {
   let [productDetails, setProductDetails] = useState(null);
@@ -62,43 +67,37 @@ function ProductDetails() {
             <img src={productDetails?.images[0]} alt="" />
           )}
         </div>
-        <div className="w-3/4">
-          <h1 className="font-bold text-2xl">{productDetails?.title}</h1>
-          <p>{productDetails?.description}</p>
+        <div className="w-3/4 ">
+          <div className="flex justify-between items-center mb-3">
+            <h1 className="font-bold text-2xl">
+              {productDetails && (
+                <ProductTitle product={productDetails} numberOfWords={5} />
+              )}
+            </h1>
+            {productDetails && (
+              <ProductRatingsAverage product={productDetails} />
+            )}
+          </div>
+          <p className="mb-3">{productDetails?.description}</p>
           <div className="flex justify-between items-center mb-5">
             <span className="text-lg lg:text-3xl font-bold text-gray-900 ">
-              ${productDetails?.price}
+              {productDetails && <ProductPrice product={productDetails} />}
             </span>
-            <div className="flex items-center">
-              <svg
-                className="w-4 h-4 text-yellow-300"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 22 20"
-              >
-                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-              </svg>
-              <span className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-800 ms-3">
-                {productDetails?.ratingsAverage}
-              </span>
-            </div>
+            {productDetails && <WishlistHeart product={productDetails} />}
           </div>
-          <a
-            href="#"
-            className="text-white block bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-          >
-            Add to cart
-          </a>
+          {productDetails && (
+            <ProductAddToCartButton product={productDetails} />
+          )}
         </div>
       </div>
+
       {/* Related products */}
 
       <h2 className="font-bold text-3xl my-11">Related Products</h2>
 
       <div className="flex flex-wrap  items-center">
         {relatedProducts.map((product) => {
-          return <Product key={product.id} product={product}/>;
+          return <Product key={product.id} product={product} />;
         })}
       </div>
     </>

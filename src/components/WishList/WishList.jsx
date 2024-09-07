@@ -1,6 +1,9 @@
 // import Style from "./WishList.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import ProductAddToCartButton from "./../ProductAddToCartButton/ProductAddToCartButton";
+import ProductPrice from "../ProductPrice/ProductPrice";
+import ProductTitle from "../ProductTitle/ProductTitle";
 
 function WishList() {
   const [wishListItems, setWishListItems] = useState([]);
@@ -55,8 +58,8 @@ function WishList() {
                   <div className="flex flex-wrap justify-between h-full items-center">
                     {/* Product Info */}
                     <div>
-                      <h2 className="text-xl mb-1">{item.title}</h2>
-                      <p className="text-green-900 mb-1">{item.price} EGP</p>
+                      <h2 className="text-2xl mb-1"><ProductTitle product={item}/></h2>
+                      <p className="text-xl text-green-900 mb-1"><ProductPrice product={item}/></p>
 
                       {/* Remove Item Action */}
                       <div
@@ -69,9 +72,7 @@ function WishList() {
                     </div>
 
                     {/* Add to Cart Button */}
-                    <button className="py-4 px-5 rounded-2xl border border-green-600 hover:bg-green-600 hover:text-white transition-all duration-200 bottom-4">
-                      Add to cart
-                    </button>
+                    <ProductAddToCartButton product={item} />
                   </div>
                 </section>
               </div>
