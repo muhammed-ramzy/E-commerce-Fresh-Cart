@@ -2,11 +2,14 @@ import { useContext, useEffect, useState } from "react";
 // import Style from "./Cart.module.css";
 import { cartContext } from "../../Context/CartContext";
 import { Link } from "react-router-dom";
+import ProductTitle from "../ProductTitle/ProductTitle";
+import ProductPrice from "../ProductPrice/ProductPrice";
 
 function Cart() {
-  let { getCartItems, updateItemCounter, removeCartItem } =
+  let { getCartItems, updateItemCounter, removeCartItem, isLoading } =
     useContext(cartContext);
-  let [cartDetails, setCartDetails] = useState(null);
+  const [cartDetails, setCartDetails] = useState(null);
+  const [currentProductID, setCurrentProductId] = useState(null);
 
   async function getItems() {
     let response = await getCartItems();
@@ -22,7 +25,6 @@ function Cart() {
     let response = await removeCartItem(productId);
     setCartDetails(response);
   }
-
 
   useEffect(() => {
     getItems();
@@ -68,13 +70,14 @@ function Cart() {
                       />
                     </td>
                     <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                      {product.product.title}
+                      <ProductTitle product={product.product} />
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-center">
                         {product.count > 1 ? (
                           <button
                             onClick={() => {
+                              setCurrentProductId(product.product.id);
                               updateItemsCounter(
                                 product.product.id,
                                 product.count - 1
@@ -84,21 +87,26 @@ function Cart() {
                             type="button"
                           >
                             <span className="sr-only">Quantity button</span>
-                            <svg
-                              className="w-3 h-3"
-                              aria-hidden="true"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 18 2"
-                            >
-                              <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M1 1h16"
-                              />
-                            </svg>
+                            {isLoading &&
+                            product.product.id == currentProductID ? (
+                              <i className="fa-solid fa-spinner fa-spin"></i>
+                            ) : (
+                              <svg
+                                className="w-3 h-3"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 18 2"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M1 1h16"
+                                />
+                              </svg>
+                            )}
                           </button>
                         ) : null}
                         <div>
@@ -106,6 +114,7 @@ function Cart() {
                         </div>
                         <button
                           onClick={() => {
+                            setCurrentProductId(product.product.id);
                             updateItemsCounter(
                               product.product.id,
                               product.count + 1
@@ -115,33 +124,47 @@ function Cart() {
                           type="button"
                         >
                           <span className="sr-only">Quantity button</span>
-                          <svg
-                            className="w-3 h-3"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 18 18"
-                          >
-                            <path
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 1v16M1 9h16"
-                            />
-                          </svg>
+
+                          {isLoading &&
+                          product.product.id == currentProductID ? (
+                            <i className="fa-solid fa-spinner fa-spin"></i>
+                          ) : (
+                            <svg
+                              className="w-3 h-3"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 18 18"
+                            >
+                              <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 1v16M1 9h16"
+                              />
+                            </svg>
+                          )}
                         </button>
                       </div>
                     </td>
                     <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                      EGP {product.price.toLocaleString("en-US")}
+                      <ProductPrice product={product} />
                     </td>
                     <td className="px-6 py-4">
                       <span
-                        onClick={() => removeItem(product.product.id)}
+                        onClick={() => {
+                           setCurrentProductId(product.product.id);
+                          removeItem(product.product.id)
+                        } 
+                      }
                         className="cursor-pointer font-medium text-red-600 dark:text-red-500 hover:text-red-200 text-xl"
                       >
-                        <i className="fa-solid fa-trash-can"></i>
+                        {isLoading && product.product.id == currentProductID ? (
+                          <i className="fa-solid fa-spinner fa-spin"></i>
+                        ) : (
+                          <i className="fa-solid fa-trash-can"></i>
+                        )}
                       </span>
                     </td>
                   </tr>

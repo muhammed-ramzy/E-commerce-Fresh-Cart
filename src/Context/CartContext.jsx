@@ -71,6 +71,7 @@ export function CartContextProvider(props) {
 
   // Function to remove an item from the cart
   function removeCartItem(productId) {
+    setIsLoading(true)
     return axios
       .delete(
         `https://ecommerce.routemisr.com/api/v1/cart/${productId}`, // Use productId in the URL to delete the item
@@ -79,11 +80,17 @@ export function CartContextProvider(props) {
         }
       )
       .then((response) => {
+        setIsLoading(false)
         // Update the number of items in the cart after removal
         setItemsNumber(response.data.numOfCartItems);
         return response;
       })
-      .catch((error) => error);
+      .catch((error) => 
+      {
+        setIsLoading(false)
+        return error
+      }  
+      );
   }
 
   // Function to handle the checkout process
@@ -104,6 +111,7 @@ export function CartContextProvider(props) {
 
   // Function to update the item count in the cart
   function updateItemCounter(productId, count) {
+    setIsLoading(true)
     return axios
       .put(
         `https://ecommerce.routemisr.com/api/v1/cart/${productId}`, // Use productId in the URL to update item count
@@ -115,11 +123,16 @@ export function CartContextProvider(props) {
         }
       )
       .then((response) => {
+        setIsLoading(false)
         // Update the number of items in the cart after the count update
         setItemsNumber(response.data.numOfCartItems);
         return response;
       })
-      .catch((error) => error);
+      .catch((error) => {
+        setIsLoading(false)
+        return error
+      }
+    );
   }
 
   // useEffect to fetch the number of cart items when the component is first mounted

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ProductAddToCartButton from "./../ProductAddToCartButton/ProductAddToCartButton";
 import ProductPrice from "../ProductPrice/ProductPrice";
 import ProductTitle from "../ProductTitle/ProductTitle";
+import ProductRatingsAverage from "../ProductRatingsAverage/ProductRatingsAverage";
 
 function WishList() {
   const [wishListItems, setWishListItems] = useState([]);
@@ -58,21 +59,29 @@ function WishList() {
                   <div className="flex flex-wrap justify-between h-full items-center">
                     {/* Product Info */}
                     <div>
-                      <h2 className="text-2xl mb-1"><ProductTitle product={item}/></h2>
-                      <p className="text-xl text-green-900 mb-1"><ProductPrice product={item}/></p>
+                      <h2 className="text-2xl mb-1">
+                        <ProductTitle product={item} />
+                      </h2>
+                      <p className="text-xl text-green-900 mb-1">
+                        <ProductPrice product={item} />
+                      </p>
 
                       {/* Remove Item Action */}
                       <div
-                        className="text-red-700 cursor-pointer hover:text-red-500"
+                        className="text-red-700 cursor-pointer hover:text-red-500 "
                         onClick={() => removeFromWishList(item._id)}
                       >
-                        <i className="fa-solid fa-trash-can me-1"></i>
+                        <i className="fa-solid fa-trash-can me-1 "></i>
                         <span>Remove</span>
                       </div>
                     </div>
 
-                    {/* Add to Cart Button */}
-                    <ProductAddToCartButton product={item} />
+                    <section>
+                      <div className="mb-5">
+                        <ProductRatingsAverage product={item} />
+                      </div>
+                      <ProductAddToCartButton product={item} />
+                    </section>
                   </div>
                 </section>
               </div>
