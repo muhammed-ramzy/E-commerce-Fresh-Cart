@@ -93,6 +93,15 @@ export function CartContextProvider(props) {
       );
   }
 
+  function clearUserCart()
+  {
+    return axios.delete("https://ecommerce.routemisr.com/api/v1/cart", {
+      headers
+    })
+    .then((res)=> res)
+    .catch((err)=> err)
+  }
+
   // Function to handle the checkout process
   function CheckOut(cartId, url, formValues) {
     return axios
@@ -153,6 +162,7 @@ export function CartContextProvider(props) {
         CheckOut,
         cartId,
         isLoading,
+        clearUserCart
       }}
     >
       {props.children}
